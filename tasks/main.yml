@@ -10,40 +10,12 @@
     validate: "visudo -cf %s"
   when: sudo_without_password|default(false) == true
 
-- name: Ensures /etc/keyd/ exists
-  file:
-    path: /etc/keyd
-    state: directory
-
-- name: Copy keyd config file
+- name: Set Caps as additional ESC key
   become: yes
-  copy:
-    src: "{{ role_path }}/files/etc/keyd/default.cfg"
-    dest: /etc/keyd/default.cfg
-    owner: root
-    group: root
-
-- name: Copy udev rule for ergodox keyboard
-  become: yes
-  copy:
-    src: "{{ role_path }}/files/50-wally.rules"
-    dest: /etc/udev/rules.d/50-wally.rules
-    owner: root
-    group: root
-  when: ergodox_keyboard|default(false) == true
-
-- name: Add plugdev group
-  become: yes
-  group:
-    name: plugdev
-    state: present
-
-- name: adding existing "{{ ansible_user_id }}" to group plugdev
-  become: yes
-  user:
-    name: "{{ ansible_user_id }}"
-    groups: ["plugdev"]
-    append: yes
+  lineinfile:
+    path: /etc/default/keyboard
+    regexp: "^XKBOPTIONS="
+    line: XKBOPTIONS="caps:escape"
 
 - include_tasks: thinkpad.yml
   when: thinkpad|default(false) == true

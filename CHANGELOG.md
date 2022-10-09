@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.1.0] - 2022-10-09
+
+### Removed
+
+- Ergodox integration
+- keyd
+
+### Added
+
+- xkboptions to swap caps with esc
+
 ## [1.0.0] - 2021-09-15
 
 ### Removed
